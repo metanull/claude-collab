@@ -1,0 +1,33 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No private data in the repository
+        run: bash tools/check-no-private-data.sh
+
+      - name: Shell scripts parse
+        run: |
+          for f in $(git ls-files '*.sh'); do bash -n "$f" && echo "ok $f"; done
+
+      - name: PowerShell scripts parse
+        shell: pwsh
+        run: |
+          $failed = 0
+          foreach ($f in git ls-files '*.ps1') {
+            $errors = $null
+            $null = [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $f), [ref]$null, [ref]$errors)
+            if ($errors) { $failed++; "FAIL $f"; $errors | ForEach-Object { "  $_" } } else { "ok $f" }
+          }
+          exit $failed

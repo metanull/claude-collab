@@ -1,0 +1,18 @@
+{
+  "name": "requires-linear-history",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "~DEFAULT_BRANCH"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "required_linear_history"
+    }
+  ]
+}
