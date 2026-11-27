@@ -87,5 +87,5 @@ and `Stop-MwnfTunnel.ps1` open and close the sites tunnel; `/collab` in Claude C
 
 ## Changes
 
-Through a pull request: squash merge, linear history, no force push, and the `ci` job must pass. The rule sets are
+Through a pull request: squash merge, linear history, no force push, the `ci` job must pass, and CodeQL must report no blocking alert. The rule sets are
 kept in `.github/rulesets/`.
